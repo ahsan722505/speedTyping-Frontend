@@ -28,16 +28,10 @@ const HomePage=(props)=>{
 
     },[id])
     const goClickHandler=()=>{
-            
-
-             
             socket.emit("join-room",{roomId : id , name : username});   
-            
     }
     const friendsClickHandler=()=>{
-        
         props.setHostMode(true);
-        
         dispatch(uiActions.showComp());
     }
     return( <div className={styles.home}>

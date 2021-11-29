@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 const uiSlice=createSlice({
     name : "ui",
     initialState : {
-        socket : io("http://192.168.10.109:8080"),
+        socket : io("http://192.168.10.13:8080"),
        showHome : true,
        showComp : false,
        username : "",

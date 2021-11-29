@@ -14,6 +14,8 @@ const Comp=(props)=>{
     const [showLoader,setShowLoader]=useState(true);
     const [roomId,setRoomId]=useState(props.roomId ? props.roomId : "");
     const [players,setPlayers]=useState([]);
+    const [countDownState,setCountDownState]=useState(false);
+    const [counter,setCounter]=useState(999);
     const closeHandler=()=>{
         setShowModal(state=> !state);
     }
@@ -40,10 +42,45 @@ const Comp=(props)=>{
         socket.on("update-players",player=>{
             setPlayers(state=> [...state,{name : player.name , id : player.id , wpm : 0}])
         })
+
+        
     },[])
+    useEffect(()=>{
+
+        socket.on("start-timer",(startingTime)=>{
+            if(countDownState) return;
+            
+            initializeCounter(startingTime);
+
+
+    })
+    return ()=>{
+        socket.off("start-timer");
+    }
+    },[countDownState]);
+    const initializeCounter=(startingTime)=>{
+        // console.log(new Date() - startingTime);
+        setCounter( 30 - Math.round((new Date() - new Date(startingTime))/1000));
+        setCountDownState(true);
+        const timer=setInterval(()=>{
+            
+                setCounter(state=>{
+                    if(state>0 ) return state-1;
+                    else{
+                        clearInterval(timer);
+                       setCountDownState(false);
+                    }
+
+                });
+            
+        },1000);
+    }
     return(
         <div>
-            <h1 className={styles.heading}>Waiting for competitors</h1>
+            <h1 className={styles.heading}>
+                {countDownState && counter}
+                { !countDownState && "Waiting for competitors"}
+            </h1>
             {players.map(each=> <Progress car={car} name ={each.name} wpm={each.wpm} key={each.id}/> )}
             <Para/>
             { showModal && <Modal closeHandler={closeHandler}>
