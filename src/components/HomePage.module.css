@@ -1,0 +1,27 @@
+@import url(../App.css);
+.home{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: var(--blue);
+    width: 40%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: .8rem;
+    
+}
+.home *{
+    margin: .7rem 0;
+}
+.idCont *{
+    margin: 0 .2rem;
+}
+@media (max-width : 500px) {
+    .home{
+        width: 80%;
+    }
+}

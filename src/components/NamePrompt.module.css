@@ -1,0 +1,10 @@
+.nameCont{
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.nameCont *{
+    margin: .3rem 0;
+}

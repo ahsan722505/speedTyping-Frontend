@@ -1,0 +1,84 @@
+@import url(../App.css);
+
+.backdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.726);
+    
+}
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 1rem;
+    padding: 1rem;
+    z-index: 100;
+    background-color:var(--blue);
+    width: 40%;
+    
+    
+    
+    
+}
+.wrap{
+    overflow-y: auto;
+    
+    overflow-x: hidden;
+    max-height: 70vh;
+   
+}
+
+.closeCont{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    left: 0;
+    margin-bottom: .8rem;
+    
+}
+.closeCont *{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+@media (max-width: 700px) {
+    .modal{
+        width: 85%;
+        
+        
+    }
+}
+
+
+.wrap::-webkit-scrollbar {
+    width: 10px;
+    
+    
+    
+  }
+  
+  
+  .wrap::-webkit-scrollbar-track {
+    
+    background: rgb(190, 190, 190);
+  
+  }
+  
+   
+  
+  .wrap::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 1rem;
+    
+  }
+  
+  
+  .wrap::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

@@ -1,0 +1,73 @@
+@import url(../App.css);
+.progressCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: 2rem auto;
+}
+.progress{
+    border: 2px dotted var(--blue) ;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    
+    
+    
+}
+.avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 15%;
+    border: 2px solid red;
+    
+}
+
+.car{
+    margin-top: .2rem;
+    width: 70%;
+    
+    
+}
+.car img{
+    width: 100%;
+    
+}
+.statCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: smaller;
+    margin-left: .2rem;
+}
+.pos{
+    color: var(--blue);
+}
+.wpm{
+    color:  var(--orange);
+}
+.name{
+    
+    width: 100%;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+
+@media (max-width : 500px) {
+    .progressCont{
+        width: 80%;
+    }
+}
+@media (max-width : 600px) {
+    .avatar{
+        width: 30%;
+    }
+}

@@ -1,0 +1,7 @@
+.btn{
+    background-color:var(--orange) ;
+    padding: .5rem .7rem;
+    border-radius: .8rem;
+    border: none;
+    cursor: pointer;
+}

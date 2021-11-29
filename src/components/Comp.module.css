@@ -1,0 +1,13 @@
+@import url(../App.css);
+.heading{
+    width: 30%;
+    margin: .5rem auto;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+@media (max-width : 500px) {
+    .heading{
+        width: 90%;
+    }
+}

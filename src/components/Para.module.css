@@ -1,0 +1,25 @@
+@import url(../App.css);
+.paraCont{
+    width: 50%;
+    margin: 0 auto;
+    border: 2px solid var(--orange);
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: .8rem;
+
+
+}
+.paraCont p{
+    margin: 0;
+    padding: 0;
+    margin-bottom: .8rem;
+}
+.paraCont input{
+    width: 100%;
+    padding: .8rem;
+}
+@media (max-width : 500px) {
+    .paraCont{
+        width: 80%;
+    }
+}

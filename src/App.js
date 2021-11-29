@@ -1,23 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useEffect,useState } from "react";
+import HomePage from "./components/HomePage";
+import Comp from "./components/Comp";
+import { useSelector,useDispatch } from "react-redux";
+import Modal from "./components/Modal";
+import NamePrompt from "./components/NamePrompt";
+import { uiActions } from "./store/ui-slice";
+
+
+
+let username="";
+
 
 function App() {
+  const [hostMode,setMode]=useState(false);
+  const [roomId,setId]=useState("");
+  
+  const dispatch=useDispatch();
+  const setHostMode=(mode)=>{
+    setMode(mode);
+
+  }
+  const setRoomId=(id)=>{
+    setId(id);
+  }
+  
+  const nameHandler=(name)=>{
+    if(name.trim().length === 0) return;
+    username=name;
+    dispatch(uiActions.setUsername({username : name}));
+    toggleModal();
+    
+  }
+  const toggleModal=()=>{
+    if(username.trim().length === 0) return;
+    setShowModal(state=> !state);
+  }
+  const [showModal,setShowModal]=useState(true);
+  const uiState=useSelector(state=>state.ui);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      { uiState.showHome && <HomePage setRoomId={setRoomId} setHostMode={setHostMode} />}
+      { uiState.showComp && <Comp hostMode={hostMode} roomId={roomId} />}
+      { showModal && <Modal closeHandler={toggleModal}><NamePrompt nameHandler={nameHandler}  /></Modal>}
+    
+      
     </div>
   );
 }
