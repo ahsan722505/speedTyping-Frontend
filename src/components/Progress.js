@@ -5,7 +5,7 @@ const Progress=(props)=>{
 
             
                 <div className={styles.progress}>
-                    <div className={styles.avatar}>
+                    <div className={styles.avatar} style={{...props.styles}}>
                         <div className={styles.name}>{props.name}</div>
                         <div  className={styles.car}>
                             <img src={props.car}/>

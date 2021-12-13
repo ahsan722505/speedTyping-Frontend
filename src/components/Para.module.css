@@ -18,6 +18,12 @@
     width: 100%;
     padding: .8rem;
 }
+.red{
+    background-color: red;
+}
+.green{
+    background-color: green;
+}
 @media (max-width : 500px) {
     .paraCont{
         width: 80%;

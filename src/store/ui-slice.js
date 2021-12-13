@@ -8,6 +8,7 @@ const uiSlice=createSlice({
        showHome : true,
        showComp : false,
        username : "",
+       totalCharacters : 0
        
     },
     reducers : {
@@ -18,6 +19,9 @@ const uiSlice=createSlice({
         setUsername(state,action){
             state.username=action.payload.username;
         },
+        setTotalCharacters(state,action){
+            state.totalCharacters=action.payload;
+        }
         
         
     }
