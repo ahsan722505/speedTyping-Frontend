@@ -6,7 +6,8 @@ import Modal from "./Modal";
 import Loader from "./Loader";
 import Uid from "./Uid";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { uiActions } from "../store/ui-slice";
 const Comp=(props)=>{
     const username=useSelector(state=> state.ui.username);
     const socket=useSelector(state=> state.ui.socket);
@@ -18,6 +19,8 @@ const Comp=(props)=>{
     const [countDownState,setCountDownState]=useState(false);
     const [counter,setCounter]=useState(999);
     const [startGame,setStartGame]=useState(false);
+    const [waitingState,setWaitingState]=useState(true);
+    const dispatch=useDispatch();
     let globalId;
     const closeHandler=()=>{
         setShowModal(state=> !state);
@@ -49,16 +52,17 @@ const Comp=(props)=>{
                 if(player.id == socket.id){
                     player.name="You";
                 }
-                return {...player , wpm : 0,left : "0%"}
+                return {...player , wpm : 0,left : "0%",position : null}
             });
             setPlayers(mPlayers);
         })
         socket.on("update-players",player=>{
-            setPlayers(state=> [...state,{name : player.name , id : player.id , wpm : 0,left : "0%"}])
+            setPlayers(state=> [...state,{name : player.name , id : player.id , wpm : 0,left : "0%",position : null}])
         })
 
         socket.on("start-game",()=>{
             console.log("starting...");
+            dispatch(uiActions.setStartingTime(new Date()));
             setStartGame(true);
         })
         
@@ -87,6 +91,20 @@ const Comp=(props)=>{
             socket.off("manipulate-position");
         }
     },[changePosition])
+    const EndGame=(data)=>{
+        const newPlayers=players.map(each=>{
+            return {...each, position : (each.id === data.id) ? data.position : each.position, wpm : (each.id === data.id) ? data.wpm : each.wpm }
+        })
+        setPlayers(newPlayers);
+    }
+    useEffect(()=>{
+        socket.on("finish",(data)=>{
+            EndGame(data);
+        })
+        return ()=>{
+            socket.off("finish");
+        }
+    },[EndGame])
     const StartMatch=()=>{
         console.log(globalId);
         socket.emit("start-match",globalId);
@@ -94,6 +112,7 @@ const Comp=(props)=>{
     const initializeCounter=(startingTime)=>{
         setCounter( 15 - Math.round((new Date() - new Date(startingTime))/1000));
         setCountDownState(true);
+        setWaitingState(false);
         const timer=setInterval(()=>{
                 setCounter(state=>{
                     if(state>0 ) return state-1;
@@ -105,6 +124,9 @@ const Comp=(props)=>{
                 });
         },1000);
     }
+    const toggleStartGame=()=>{
+        setStartGame(state=>!state);
+    }
 
     
     
@@ -112,11 +134,12 @@ const Comp=(props)=>{
         <div>
             <h1 className={styles.heading}>
                 {countDownState && !startGame && counter}
-                { !countDownState && !startGame && "Waiting for competitors"}
+                { waitingState && !countDownState && !startGame && "Waiting for competitors"}
                 {startGame && !countDownState && "Start now"}
+                {!startGame && !countDownState && !waitingState && "Congratulations"}
             </h1>
-            {players.map(each=> <Progress styles={{left : each.left}}  car={car} name ={each.name} wpm={each.wpm} key={each.id}/> )}
-            <Para changePosition={changePosition} roomId={roomId}/>
+            {players.map(each=> <Progress styles={{left : each.left}}  car={car} name ={each.name} wpm={each.wpm} position={each.position} key={each.id}/> )}
+            <Para toggleStartGame={toggleStartGame} disable={startGame} changePosition={changePosition} roomId={roomId}/>
             { showModal && <Modal closeHandler={closeHandler}>
                 { !showLoader && <Uid id={roomId}/>}
                 { showLoader && <Loader/>}

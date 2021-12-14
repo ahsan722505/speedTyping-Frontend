@@ -8,7 +8,8 @@ const uiSlice=createSlice({
        showHome : true,
        showComp : false,
        username : "",
-       totalCharacters : 0
+       totalCharacters : 0,
+       startingTime : null
        
     },
     reducers : {
@@ -21,6 +22,9 @@ const uiSlice=createSlice({
         },
         setTotalCharacters(state,action){
             state.totalCharacters=action.payload;
+        },
+        setStartingTime(state,action){
+            state.startingTime=action.payload;
         }
         
         

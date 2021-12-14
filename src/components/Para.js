@@ -5,16 +5,20 @@ import { useDispatch } from "react-redux";
 import { uiActions } from "../store/ui-slice";
 import { useSelector } from "react-redux";
 let currentCharacters=0;
+let devCurrentCharacters=0;
 const Para=(props)=>{
     
     const socket=useSelector(state=>state.ui.socket);
+    const totalCharacters=useSelector(state=> state.ui.totalCharacters);
+    const startingTime=useSelector(state=>state.ui.startingTime);
     const [inputText,setInputText]=useState("");
     const [currWord,setCurrentWord]=useState(0);
     const [currWordText,setCurrWordText]=useState("");
     const dispatch=useDispatch();
     
+    
     const wordRefs=useRef([]);
-    const str="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat ahsan.";
+    const str="Lorem ipsum dolor sit amet.";
     dispatch(uiActions.setTotalCharacters(str.length));
     
     let temp="";
@@ -24,7 +28,6 @@ const Para=(props)=>{
             strArr.push(<span ref={el=> wordRefs.current[j]=el}>{temp}</span>);
             strArr.push(<span> </span>);
             temp="";
-            // console.log(j);
             j=j+1;
             
         }else{
@@ -57,31 +60,38 @@ const Para=(props)=>{
     const changeInputHandler=(e)=>{
         
         let str=e.target.value;
-        if(str.length -1 === currWordText.length && str.charAt(str.length-1)=== ' '){
+        if(str === currWordText && devCurrentCharacters + 1 === totalCharacters){
+            
+            // endgame
+            setInputText("");
+            props.toggleStartGame();
+            currentCharacters+=currWordText.length;
+            socket.emit("take-characters",{id : socket.id , currentCharacters,roomId : props.roomId});
+            
+            wordRefs.current[currWord].classList.remove(`${styles.green}`);
+            const time=((new Date() - startingTime)/1000)/60;
+            const wpm=(totalCharacters/5)/time;
+            socket.emit("complete",{id : socket.id , wpm : wpm,roomId : props.roomId});
+
+        }
+        else if(str.charAt(str.length-1)=== ' ' && str.slice(0,str.length-1) === currWordText){
+            // next word
+            devCurrentCharacters++;
             currentCharacters+=currWordText.length+1;
             socket.emit("take-characters",{id : socket.id , currentCharacters,roomId : props.roomId});  
 
-            // next word
             setCurrentWord(state=>state+1);
             setInputText("");
 
         }else{
             if(str === currWordText.slice(0,str.length)){
                 right();
+                devCurrentCharacters++;
             } 
             else
                 wrong();
                 setInputText(e.target.value);
         }
-        
-        
-        
-
-        
-
-         
-
-        
     }
     return(
         <div className={styles.paraCont}>
@@ -89,7 +99,7 @@ const Para=(props)=>{
                     {strArr}
 
                 </p>
-                <input type="text" placeholder="write here" value={inputText} onChange={changeInputHandler}/>
+                <input disabled={!props.disable} type="text" placeholder="write here" value={inputText} onChange={changeInputHandler}/>
                 
             </div>
     )

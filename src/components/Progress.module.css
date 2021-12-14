@@ -3,8 +3,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 70%;
     margin: 4rem auto;
+    /* border: 2px solid black; */
 }
 .progress{
     border: 2px dotted var(--blue) ;
@@ -14,8 +15,10 @@
     border-top: none;
     border-left: none;
     border-right: none;
-    width: 100%;
+    /* width: 100%; */
+    width: 70%;
     position: relative;
+    /* border: 2px solid green; */
     
     
     
@@ -27,7 +30,7 @@
     align-items: center;
     flex-direction: column;
     width: 15%;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     position: absolute;
     left: 0;
     bottom: 0;
@@ -52,6 +55,10 @@
     flex-direction: column;
     font-size: smaller;
     margin-left: .2rem;
+    width: 30%;
+}
+.statCont *{
+    word-wrap: break-word;
 }
 .pos{
     color: var(--blue);
