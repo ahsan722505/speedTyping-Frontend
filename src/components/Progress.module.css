@@ -5,7 +5,6 @@
     align-items: center;
     width: 70%;
     margin: 4rem auto;
-    /* border: 2px solid black; */
 }
 .progress{
     border: 2px dotted var(--blue) ;
@@ -15,14 +14,9 @@
     border-top: none;
     border-left: none;
     border-right: none;
-    /* width: 100%; */
     width: 70%;
     position: relative;
-    /* border: 2px solid green; */
-    
-    
-    
-    
+   
 }
 .avatar{
     display: flex;
@@ -30,7 +24,6 @@
     align-items: center;
     flex-direction: column;
     width: 15%;
-    /* border: 2px solid red; */
     position: absolute;
     left: 0;
     bottom: 0;
@@ -74,12 +67,16 @@
 }
 
 
-@media (max-width : 500px) {
+@media (max-width : 700px) {
     .progressCont{
-        width: 80%;
+        width: 90%;
     }
-}
-@media (max-width : 600px) {
+    .statCont{
+        font-size: .7rem;
+    }
+    .name{
+        font-size: .7rem;
+    }
     .avatar{
         width: 30%;
     }

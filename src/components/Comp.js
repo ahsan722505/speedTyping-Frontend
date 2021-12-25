@@ -12,6 +12,7 @@ const Comp=(props)=>{
     const username=useSelector(state=> state.ui.username);
     const socket=useSelector(state=> state.ui.socket);
     const totalCharacters=useSelector(state=>state.ui.totalCharacters);
+    const carWidth=useSelector(state=>state.ui.carWidth);
     const [showModal,setShowModal]=useState( props.hostMode ? true : false);
     const [showLoader,setShowLoader]=useState(true);
     const [roomId,setRoomId]=useState(props.roomId ? props.roomId : "");
@@ -26,9 +27,9 @@ const Comp=(props)=>{
         setShowModal(state=> !state);
     }
     const changePosition=(playerId,currentCharacters)=>{
-        console.log(currentCharacters);
+        const value=100-carWidth;
 
-        const newLeft=`${(currentCharacters/totalCharacters)*85}%`;
+        const newLeft=`${(currentCharacters/totalCharacters)*value}%`;
         const newPlayers=players.map(each=>{
             return {...each,left : (each.id === playerId ? newLeft : each.left)}
         })
@@ -61,8 +62,8 @@ const Comp=(props)=>{
         })
 
         socket.on("start-game",()=>{
-            console.log("starting...");
             dispatch(uiActions.setStartingTime(new Date()));
+            setCountDownState(false);
             setStartGame(true);
         })
         
@@ -106,7 +107,6 @@ const Comp=(props)=>{
         }
     },[EndGame])
     const StartMatch=()=>{
-        console.log(globalId);
         socket.emit("start-match",globalId);
     }
     const initializeCounter=(startingTime)=>{
@@ -118,7 +118,7 @@ const Comp=(props)=>{
                     if(state>0 ) return state-1;
                     else{
                         clearInterval(timer);
-                       setCountDownState(false);
+                    //    setCountDownState(false);
                        if(props.hostMode) StartMatch();
                     }
                 });

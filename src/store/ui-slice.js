@@ -4,12 +4,13 @@ import { io } from "socket.io-client";
 const uiSlice=createSlice({
     name : "ui",
     initialState : {
-        socket : io("http://192.168.10.13:8080"),
+        socket : io("https://afternoon-ravine-07921.herokuapp.com/"),
        showHome : true,
        showComp : false,
        username : "",
        totalCharacters : 0,
-       startingTime : null
+       startingTime : null,
+       carWidth : null
        
     },
     reducers : {
@@ -25,7 +26,10 @@ const uiSlice=createSlice({
         },
         setStartingTime(state,action){
             state.startingTime=action.payload;
-        }
+        },
+        setCarWidth(state,action){
+            state.carWidth=action.payload;
+        },
         
         
     }

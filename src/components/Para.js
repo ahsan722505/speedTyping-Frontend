@@ -20,7 +20,6 @@ const Para=(props)=>{
     const wordRefs=useRef([]);
     const str="Lorem ipsum dolor sit amet.";
     dispatch(uiActions.setTotalCharacters(str.length));
-    
     let temp="";
     let strArr=[];
     for(let i=0,j=-1,k=0 ; i < str.length ; i++){
@@ -52,17 +51,11 @@ const Para=(props)=>{
         wordRefs.current[currWord].classList.remove(`${styles.green}`);
         wordRefs.current[currWord].classList.add(`${styles.red}`);
     }
-    
-    
-
-    
-    
-    const changeInputHandler=(e)=>{
-        
+    const changeInputHandler=(e)=>{   
         let str=e.target.value;
-        if(str === currWordText && devCurrentCharacters + 1 === totalCharacters){
+       
+        if(str === currWordText && (currentCharacters + currWordText.length) === totalCharacters){
             
-            // endgame
             setInputText("");
             props.toggleStartGame();
             currentCharacters+=currWordText.length;

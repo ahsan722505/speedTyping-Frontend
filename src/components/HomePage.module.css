@@ -20,7 +20,7 @@
 .idCont *{
     margin: 0 .2rem;
 }
-@media (max-width : 500px) {
+@media (max-width : 700px) {
     .home{
         width: 80%;
     }
