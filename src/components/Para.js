@@ -18,7 +18,7 @@ const Para=(props)=>{
     
     
     const wordRefs=useRef([]);
-    const str="Lorem ipsum dolor sit amet.";
+    const str="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
     dispatch(uiActions.setTotalCharacters(str.length));
     let temp="";
     let strArr=[];
